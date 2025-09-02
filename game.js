@@ -43,32 +43,61 @@ class GameController {
     startGame() {
         const nameInput = document.getElementById('player-name');
         const playerName = nameInput ? nameInput.value.trim() : "";
-
+    
         if (!playerName) {
             alert("名前を入力してください！");
-            return; // 入力がなければゲームを開始しない
+            return;
         }
 
-        console.log('ゲーム開始');
-        this.gameState.isPlaying = true;
-        this.gameState.matchedPairs = 0;
-        this.gameState.flippedCards = [];
-        this.gameState.canFlip = true;
+         // ★ 確認メッセージ
+        const confirmStart = confirm(`この名前でスコアが記録されますが、よろしいでしょうか？\n\n【${playerName}】`);
+        if (!confirmStart) {
+            return;
+        }
 
-        // カードを生成・配置
-        this.cardManager.generateCards();
-
-        // タイマー開始
-        this.timerManager.start(() => {
+        console.log('カウントダウン開始');
+        this.showCountdown(() => {
+            console.log('ゲーム開始');
+            this.gameState.isPlaying = true;
+            this.gameState.matchedPairs = 0;
+            this.gameState.flippedCards = [];
+            this.gameState.canFlip = true;
+    
+            // カードを生成・配置
+            this.cardManager.generateCards();
+    
+            // タイマー開始
+            this.timerManager.start(() => {
+                this.updateDisplay();
+            }, () => {
+                this.endGame(false); // 時間切れ
+            });
+    
             this.updateDisplay();
-        }, () => {
-            this.endGame(false); // 時間切れ
+            this.hideModal();
         });
-
-        this.updateDisplay();
-        this.hideModal();
     }
-
+    
+    showCountdown(callback) {
+        const overlay = document.getElementById('countdown-overlay');
+        overlay.classList.remove('hidden');
+        let count = 3;
+    
+        overlay.textContent = count;
+    
+        const interval = setInterval(() => {
+            count--;
+            if (count > 0) {
+                overlay.textContent = count;
+            } else {
+                clearInterval(interval);
+                overlay.classList.add('hidden');
+                callback(); // カウント終了後にゲーム開始
+            }
+        }, 1000);
+    }
+    
+    
     endGame(isWin = false) {
         console.log('ゲーム終了:', isWin ? '勝利' : '時間切れ');
         this.gameState.isPlaying = false;
@@ -172,6 +201,28 @@ class GameController {
 
     hideModal() {
         document.getElementById('game-end-modal').classList.add('hidden');
+    }
+
+    showCountdown(callback) {
+        const countdownOverlay = document.getElementById('countdown-overlay');
+        let count = 3;
+        
+        countdownOverlay.classList.remove('hidden');
+        countdownOverlay.textContent = count;
+        
+        const countdownInterval = setInterval(() => {
+            count--;
+            if (count > 0) {
+                countdownOverlay.textContent = count;
+            } else if (count === 0) {
+                countdownOverlay.textContent = 'START!';
+            } else {
+                // カウントダウン終了
+                clearInterval(countdownInterval);
+                countdownOverlay.classList.add('hidden');
+                if (callback) callback();
+            }
+        }, 1000);
     }
 }
 
