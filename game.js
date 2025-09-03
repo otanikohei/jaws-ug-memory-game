@@ -8,7 +8,7 @@ const GAME_CONFIG = {
     GRID_COLS: 8,
     GRID_ROWS: 4,
     CARD_FLIP_DELAY: 700, // 1秒
-    TOTAL_IMAGES: 16
+    TOTAL_IMAGES: 17
 };
 
 // GameController クラス - ゲーム全体の状態管理
