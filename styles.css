@@ -236,7 +236,7 @@ body {
 }
 
 .ranking-list {
-    max-height: 300px;
+    max-height: 1000px;
     overflow-y: auto;
 }
 
@@ -420,3 +420,8 @@ body {
         margin: 20px;
     }
 }
+
+/* どこでも使える非表示ユーティリティ */
+.hidden {
+    display: none !important;
+  }

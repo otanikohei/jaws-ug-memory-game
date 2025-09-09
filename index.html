@@ -21,10 +21,10 @@
     <div class="container">
         <!-- ヘッダー部分 -->
         <header class="game-header">
-            <h1>JAWS-UG 支部ロゴ・神経衰弱ゲーム</h1>
+            <h1 id="game-title">JAWS-UG 支部ロゴ・神経衰弱ゲーム</h1>
             <div class="game-controls">
                 <!-- 名前入力欄を追加 -->
-                <div class="player-name-input">
+                <div id="players-name" class="player-name-input">
                     <label for="player-name">名前:</label>
                     <input type="text" id="player-name" placeholder="お名前を入力">
                 </div>
@@ -38,13 +38,13 @@
 
         <!-- ゲームエリア -->
         <main class="game-area">
-            <div id="card-grid" class="card-grid">
+            <div id="card-grid" class="card-grid hidden">
                 <!-- カードは JavaScript で動的に生成される -->
             </div>
         </main>
 
         <!-- ランキング表示エリア -->
-        <section class="ranking-section">
+        <section id="ranking-area" class="ranking-section">
             <h2>ランキング</h2>
             <div id="ranking-display" class="ranking-list">
                 <!-- ランキングは JavaScript で動的に生成される -->

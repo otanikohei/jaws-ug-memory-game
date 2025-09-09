@@ -8,7 +8,7 @@ const GAME_CONFIG = {
     GRID_COLS: 8,
     GRID_ROWS: 4,
     CARD_FLIP_DELAY: 700, // 1秒
-    TOTAL_IMAGES: 17
+    TOTAL_IMAGES: 18
 };
 
 // GameController クラス - ゲーム全体の状態管理
@@ -50,7 +50,7 @@ class GameController {
         }
 
          // ★ 確認メッセージ
-        const confirmStart = confirm(`この名前でスコアが記録されますが、よろしいでしょうか？\n\n【${playerName}】`);
+        const confirmStart = confirm(`この名前でスコアが記録されますが、よろしいでしょうか？\n\nお名前：${playerName}`);
         if (!confirmStart) {
             return;
         }
@@ -63,6 +63,13 @@ class GameController {
             this.gameState.flippedCards = [];
             this.gameState.canFlip = true;
     
+            // ★ カードグリッドを表示
+            document.getElementById('card-grid').classList.remove('hidden');
+            document.getElementById('ranking-area').classList.add('hidden');
+            document.getElementById('game-title').classList.add('hidden');
+            document.getElementById('players-name').classList.add('hidden');
+            document.getElementById('start-btn').classList.add('hidden');
+            
             // カードを生成・配置
             this.cardManager.generateCards();
     
@@ -126,6 +133,13 @@ class GameController {
         this.cardManager.clearCards();
         this.updateDisplay();
         this.hideModal();
+
+        // ★ カードグリッドを再び隠す
+        document.getElementById('card-grid').classList.add('hidden');        
+        document.getElementById('ranking-area').classList.remove('hidden');
+        document.getElementById('game-title').classList.remove('hidden');
+        document.getElementById('players-name').classList.remove('hidden');
+        document.getElementById('start-btn').classList.remove('hidden');
     }
 
     checkWinCondition() {
@@ -193,7 +207,7 @@ class GameController {
             <p>揃えたペア数: ${this.gameState.matchedPairs}/${GAME_CONFIG.TOTAL_PAIRS}</p>
             <p>経過時間: ${timeText}</p>
             ${isWin ? '<p style="color: #00b894; font-weight: bold;">おめでとうございます！</p>' :
-                '<p style="color: #e17055;">もう一度チャレンジしてみましょう！</p>'}
+                '<p style="color: #e17055;">おつかれさまでした！！</p>'}
         `;
 
         modal.classList.remove('hidden');
